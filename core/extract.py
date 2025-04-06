@@ -203,6 +203,9 @@ class ExtractDuration:
         output = ""
         sample_rate = 22050
         lpath = input.split("|")[0].strip()
+        before_temp, after_temp = lpath.split("temp" + os.sep, 1)
+        filename = input.rsplit("\\", 1)[-1].split("|")[0].strip()
+        lpath = os.path.join(before_temp, "temp", filename)
         size = os.stat(lpath).st_size
         x = {
             "audio_filepath": lpath,

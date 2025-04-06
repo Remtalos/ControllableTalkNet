@@ -578,6 +578,21 @@ def update_filelist(n_clicks):
     for x in sorted(os.listdir(RUN_PATH)):
         if x[-4:].lower() in supported_formats:
             filelist.append({"label": x, "value": x})
+
+    # Create dir InputVoice if it does not exist
+    if not os.path.exists(os.path.join(RUN_PATH, "InputVoice")):
+        os.mkdir(os.path.join(RUN_PATH, "InputVoice"))
+
+    # Walk through all subdirectories in InputVoice
+    inputVoicePath = os.path.join(RUN_PATH, "InputVoice")
+    for root, _, files in os.walk(inputVoicePath):
+        for file in sorted(files):
+            if any(file.lower().endswith(ext) for ext in supported_formats):
+                full_path = os.path.join(root, file)
+                # Add relative path or label appropriately
+                rel_path = os.path.relpath(full_path, RUN_PATH)
+                filelist.append({"label": rel_path, "value": rel_path})
+
     return filelist
 
 
@@ -598,7 +613,7 @@ def select_file(dropdown_value, pitch_options):
         if not os.path.exists(os.path.join(RUN_PATH, "temp")):
             os.mkdir(os.path.join(RUN_PATH, "temp"))
         ffmpeg.input(os.path.join(RUN_PATH, dropdown_value)).output(
-            os.path.join(RUN_PATH, "temp", dropdown_value + "_conv.wav"),
+            os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav"),
             ar="22050",
             ac="1",
             acodec="pcm_s16le",
@@ -607,12 +622,12 @@ def select_file(dropdown_value, pitch_options):
         ).overwrite_output().run(quiet=True)
         if "pitch" in pitch_options:
             f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(
-                os.path.join(RUN_PATH, "temp", dropdown_value + "_conv.wav"),
+                os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav")),
                 legacy=False,
             )
         else:
             f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(
-                os.path.join(RUN_PATH, "temp", dropdown_value + "_conv.wav"),
+                os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav")),
                 legacy=True,
             )
         return [
@@ -756,7 +771,8 @@ def generate_audio(
                     ]
                 spect = tnmodel.generate_spectrogram(tokens=tokens)
             else:
-                durs = extract_dur.get_duration(wav_name, transcript, token_list)
+                filename = wav_name.rsplit("\\", 1)[-1]
+                durs = extract_dur.get_duration(filename, transcript, token_list)
 
                 # Change pitch
                 if "pf" in pitch_options:
