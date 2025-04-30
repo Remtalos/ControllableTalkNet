@@ -1,5 +1,5 @@
 numpy==2.0.2
-scipy==1.15.0
+scipy==1.13.1
 tensorflow==2.19.0
 tensorboard==2.19.0
 dash==1.21.0
