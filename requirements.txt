@@ -8,7 +8,7 @@ jupyter-dash==0.4.0
 psola==0.0.1
 wget==3.2
 unidecode==1.2.0
-pysptk==0.1.18
+pysptk==1.0.1
 frozendict==2.0.3
 torch==2.7.0
 torchvision==0.22.0
