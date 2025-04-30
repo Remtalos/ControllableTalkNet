@@ -10,8 +10,8 @@ wget==3.2
 unidecode==1.2.0
 pysptk==0.1.18
 frozendict==2.0.3
-torch==2.7.0+cu128
-torchvision==0.22.0+cu128
+torch==2.7.0
+torchvision==0.22.0
 torchaudio==2.7.0
 torchtext==0.18.0
 torch_stft==0.1.4
