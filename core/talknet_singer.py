@@ -10,7 +10,7 @@ from torch.nn import functional as F
 import numpy as np
 
 from nemo.collections.asr.data.audio_to_text import AudioToCharWithDursF0Dataset
-from nemo.collections.tts.helpers.helpers import get_mask_from_lengths
+from nemo.collections.tts.parts.utils.helpers import get_mask_from_lengths
 from nemo.collections.tts.models.base import SpectrogramGenerator
 from nemo.collections.tts.modules.talknet import (
     GaussianEmbedding,
