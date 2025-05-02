@@ -29,7 +29,6 @@ gdown==4.6.0
 editdistance==0.5.3
 ipywidgets==7.6.3
 torchcrepe==0.0.23
-taming-transformers-rom1504==0.0.6
 einops==0.3.2
 tensorflow-hub==0.16.1
 flask==2.0.3
