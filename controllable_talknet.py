@@ -621,15 +621,9 @@ def select_file(dropdown_value, pitch_options):
             fflags="+bitexact",
         ).overwrite_output().run(quiet=True)
         if "pitch" in pitch_options:
-            f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(
-                os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav")),
-                legacy=False,
-            )
+            f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav"), legacy=False)
         else:
-            f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(
-                os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav")),
-                legacy=True,
-            )
+            f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav"), legacy=True)
         return [
             "Analyzed " + dropdown_value,
             f0_with_silence,
