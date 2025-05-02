@@ -612,14 +612,23 @@ def select_file(dropdown_value, pitch_options):
     if dropdown_value is not None:
         if not os.path.exists(os.path.join(RUN_PATH, "temp")):
             os.mkdir(os.path.join(RUN_PATH, "temp"))
-        ffmpeg.input(os.path.join(RUN_PATH, dropdown_value)).output(
-            os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav"),
-            ar="22050",
-            ac="1",
-            acodec="pcm_s16le",
-            map_metadata="-1",
-            fflags="+bitexact",
-        ).overwrite_output().run(quiet=True)
+            
+        full_path = os.path.join(RUN_PATH, dropdown_value)
+        print(f"Trying to load file: {full_path}")
+        print("Exists?", os.path.exists(full_path))
+        try:
+            (
+                ffmpeg.input(os.path.join(RUN_PATH, dropdown_value)).output(
+                    os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav"),
+                    ar="22050",
+                    ac="1",
+                    acodec="pcm_s16le",
+                    map_metadata="-1",
+                    fflags="+bitexact",
+                ).overwrite_output().run(quiet=True)
+            )
+        except ffmpeg.Error as e:
+            print("FFmpeg Error:", e.stderr.decode())
         if "pitch" in pitch_options:
             f0_with_silence, f0_wo_silence = extract_pitch.get_pitch(os.path.join(RUN_PATH, "temp", dropdown_value.rsplit("\\", 1)[-1] + "_conv.wav"), legacy=False)
         else:
@@ -765,6 +774,7 @@ def generate_audio(
                     ]
                 spect = tnmodel.generate_spectrogram(tokens=tokens)
             else:
+                                             
                 filename = wav_name.rsplit("\\", 1)[-1]
                 durs = extract_dur.get_duration(filename, transcript, token_list)
 
