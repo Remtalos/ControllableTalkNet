@@ -46,3 +46,4 @@ sentencepiece<1.0.0
 jiwer>=2.0.0
 webdataset>=0.2.86
 datasets
+wandb
