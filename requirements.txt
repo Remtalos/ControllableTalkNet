@@ -21,7 +21,7 @@ pyannote.audio==1.1.2
 g2p_en==2.1.0
 pesq==0.0.2
 pystoi==0.3.3
-crepe==0.0.12
+crepe==0.0.16
 resampy==0.2.2
 ffmpeg-python==0.2.0
 tqdm
