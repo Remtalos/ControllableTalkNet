@@ -44,3 +44,4 @@ lhotse>=1.26.0
 transformers>=4.51.0
 sentencepiece<1.0.0
 jiwer>=2.0.0
+webdataset>=0.2.86
